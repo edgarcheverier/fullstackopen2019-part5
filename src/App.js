@@ -1,24 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Blog from './components/Blog';
+import { getAll } from './services/blogs';
+import { loginUser } from './services/login';
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    getAll().then(data => setBlogs(data));
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    loginUser(name, password).then(data => setUser(data));
+  }
+
+  const loginForm = () => {
+    return (
+      <>
+        <h1>Log in to application</h1>
+        <form onSubmit={handleSubmit}>
+            username
+            <input value={name} onChange={({ target }) => setName(target.value)} />
+            password
+            <input value={password} onChange={({ target }) => setPassword(target.value)} />
+            <button type='submit'>login</button>
+        </form>
+      </>
+    )
+  };
+
+  const displayBlogs = () => {
+    if (blogs.length) {
+      return (
+        <div>
+          <h1>blogs</h1>
+          <h3>{user.name} logged in</h3>
+          {blogs.map(blog => <Blog key={blog.id}  blog={blog} />)}
+        </div>
+      )
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      { user ? displayBlogs() : loginForm()}
     </div>
   );
 }
