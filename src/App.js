@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Blog from './components/Blog';
+import CreateBlog from './components/CreateBlog';
 import { getAll } from './services/blogs';
 import { loginUser } from './services/login';
 
@@ -52,6 +53,7 @@ function App() {
           <h1>blogs</h1>
           <h3>{user.name} logged in</h3>
           <button onClick={handleLogout}>logout</button>
+          <CreateBlog  token={user.token} blogs={blogs} setBlogs={setBlogs} />
           {blogs.map(blog => <Blog key={blog.id}  blog={blog} />)}
         </div>
       )
