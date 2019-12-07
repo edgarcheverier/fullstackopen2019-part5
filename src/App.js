@@ -35,16 +35,16 @@ function App() {
           setMessage('');
         }, 5000)
       })
-    .catch((error) => {
-      setError(true);
-      setMessage(error.message);
-      setshowNotifications(true);
-      setTimeout(() => {
-        setshowNotifications(false);
-        setMessage('');
-        setError(false);
-      }, 5000)
-    });
+      .catch((error) => {
+        setError(true);
+        setMessage(error.message);
+        setshowNotifications(true);
+        setTimeout(() => {
+          setshowNotifications(false);
+          setMessage('');
+          setError(false);
+        }, 5000)
+      });
   }
 
   const loginForm = () => {
@@ -53,11 +53,11 @@ function App() {
         <h1>Log in to application</h1>
         {showNotifications && <Notifications error={error} message={message} />}
         <form onSubmit={handleSubmit}>
-            username
-            <input value={name} onChange={({ target }) => setName(target.value)} />
-            password
-            <input value={password} onChange={({ target }) => setPassword(target.value)} />
-            <button type='submit'>login</button>
+          username
+          <input value={name} onChange={({ target }) => setName(target.value)} />
+          password
+          <input value={password} onChange={({ target }) => setPassword(target.value)} />
+          <button type='submit'>login</button>
         </form>
       </>
     )

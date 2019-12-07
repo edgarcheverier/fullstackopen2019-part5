@@ -9,7 +9,7 @@ const CreateBlog = ({ token, blogs, setBlogs, setshowNotifications, setError, se
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createBlog({title, author, url}, token)
+    createBlog({ title, author, url }, token)
       .then(data => {
         setBlogs(blogs.concat(data));
         setTitle('');
@@ -38,11 +38,11 @@ const CreateBlog = ({ token, blogs, setBlogs, setshowNotifications, setError, se
   const displayForm = () => (
     <form onSubmit={handleSubmit}>
       title
-      <input value={title} onChange={({target}) => setTitle(target.value)} />
+      <input value={title} onChange={({ target }) => setTitle(target.value)} />
       author
-      <input value={author} onChange={({target}) => setAuthor(target.value)} />
+      <input value={author} onChange={({ target }) => setAuthor(target.value)} />
       url
-      <input value={url} onChange={({target}) => setUrl(target.value)} />
+      <input value={url} onChange={({ target }) => setUrl(target.value)} />
       <button type='submit'>create</button>
     </form>
   );
