@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createBlog } from '../services/blogs';
 
-const CreateBlog = ({ token, blogs, setBlogs }) => {
+const CreateBlog = ({ token, blogs, setBlogs, setshowNotifications, setError, setMessage }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
@@ -14,6 +14,23 @@ const CreateBlog = ({ token, blogs, setBlogs }) => {
         setTitle('');
         setAuthor('');
         setUrl('');
+        setshowNotifications(true);
+        setMessage(`a new blog ${data.title} by ${data.author} added`);
+
+        setTimeout(() => {
+          setshowNotifications(false);
+          setMessage('');
+        }, 5000)
+      })
+      .catch((error) => {
+        setshowNotifications(true);
+        setError(true);
+        setMessage(error.message);
+        setTimeout(() => {
+          setshowNotifications(false);
+          setError(false);
+          setMessage('');
+        }, 5000)
       })
   }
 
