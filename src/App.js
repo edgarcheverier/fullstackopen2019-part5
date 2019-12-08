@@ -12,8 +12,8 @@ function App() {
   const [showNotifications, setshowNotifications] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
-  const nameInput = useField('text');
-  const passwordInput = useField('password');
+  const nameField = useField('text');
+  const passwordField = useField('password');
 
   useEffect(() => {
     getAll().then(data => setBlogs(data));
@@ -25,14 +25,14 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginUser(nameInput.value, passwordInput.value)
+    loginUser(nameField.value, passwordField.value)
       .then(data => {
         setUser(data);
         window.localStorage.setItem('loggedBlogappUser', JSON.stringify(data));
         setshowNotifications(true);
         setMessage(`${data.name} succesfully logged in`);
-        nameInput.setValue('');
-        passwordInput.setValue('');
+        nameField.setValue('');
+        passwordField.setValue('');
         setTimeout(() => {
           setshowNotifications(false);
           setMessage('');
@@ -57,9 +57,9 @@ function App() {
         {showNotifications && <Notifications error={error} message={message} />}
         <form onSubmit={handleSubmit}>
           username
-          <input type={nameInput.type} value={nameInput.value} onChange={nameInput.onChange} />
+          <input type={nameField.type} value={nameField.value} onChange={nameField.onChange} />
           password
-          <input type={passwordInput.type} value={passwordInput.value} onChange={passwordInput.onChange} />
+          <input type={passwordField.type} value={passwordField.value} onChange={passwordField.onChange} />
           <button type='submit'>login</button>
         </form>
       </>

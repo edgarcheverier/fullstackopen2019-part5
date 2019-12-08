@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { createBlog } from '../services/blogs';
+import { useField } from '../hooks/index';
 
 const CreateBlog = ({ token, blogs, setBlogs, setshowNotifications, setError, setMessage }) => {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const titleField = useField('text');
+  const authorField = useField('text');
+  const urlField = useField('text');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createBlog({ title, author, url }, token)
+    createBlog({ title: titleField.value, author: authorField.value, url: urlField.value }, token)
       .then(data => {
         setBlogs(blogs.concat(data));
-        setTitle('');
-        setAuthor('');
-        setUrl('');
+        titleField.setValue('');
+        authorField.setValue('');
+        urlField.setValue('');
         setshowNotifications(true);
         setMessage(`a new blog ${data.title} by ${data.author} added`);
         setShowForm(false);
@@ -38,11 +39,11 @@ const CreateBlog = ({ token, blogs, setBlogs, setshowNotifications, setError, se
   const displayForm = () => (
     <form onSubmit={handleSubmit}>
       title
-      <input value={title} onChange={({ target }) => setTitle(target.value)} />
+      <input type={titleField.type} value={titleField.value} onChange={titleField.onChange} />
       author
-      <input value={author} onChange={({ target }) => setAuthor(target.value)} />
+      <input type={authorField.type} value={authorField.value} onChange={authorField.onChange} />
       url
-      <input value={url} onChange={({ target }) => setUrl(target.value)} />
+      <input type={urlField.type} value={urlField.value} onChange={urlField.onChange  } />
       <button type='submit'>create</button>
     </form>
   );
