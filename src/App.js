@@ -4,15 +4,16 @@ import CreateBlog from './components/CreateBlog';
 import { getAll } from './services/blogs';
 import { loginUser } from './services/login';
 import Notifications from './components/Notifications';
+import { useField } from './hooks/index';
 
 function App() {
   const [user, setUser] = useState(null);
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
   const [blogs, setBlogs] = useState([]);
   const [showNotifications, setshowNotifications] = useState(false);
   const [error, setError] = useState(false);
   const [message, setMessage] = useState('');
+  const nameInput = useField('text');
+  const passwordInput = useField('password');
 
   useEffect(() => {
     getAll().then(data => setBlogs(data));
@@ -24,12 +25,14 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginUser(name, password)
+    loginUser(nameInput.value, passwordInput.value)
       .then(data => {
         setUser(data);
         window.localStorage.setItem('loggedBlogappUser', JSON.stringify(data));
         setshowNotifications(true);
-        setMessage(`${data.name} succesfully logged in`)
+        setMessage(`${data.name} succesfully logged in`);
+        nameInput.setValue('');
+        passwordInput.setValue('');
         setTimeout(() => {
           setshowNotifications(false);
           setMessage('');
@@ -54,9 +57,9 @@ function App() {
         {showNotifications && <Notifications error={error} message={message} />}
         <form onSubmit={handleSubmit}>
           username
-          <input value={name} onChange={({ target }) => setName(target.value)} />
+          <input type={nameInput.type} value={nameInput.value} onChange={nameInput.onChange} />
           password
-          <input value={password} onChange={({ target }) => setPassword(target.value)} />
+          <input type={passwordInput.type} value={passwordInput.value} onChange={passwordInput.onChange} />
           <button type='submit'>login</button>
         </form>
       </>
