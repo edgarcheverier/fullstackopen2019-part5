@@ -57,9 +57,9 @@ function App() {
         {showNotifications && <Notifications error={error} message={message} />}
         <form onSubmit={handleSubmit}>
           username
-          <input type={nameField.type} value={nameField.value} onChange={nameField.onChange} />
+          <input {...nameField.inputProps()}  />
           password
-          <input type={passwordField.type} value={passwordField.value} onChange={passwordField.onChange} />
+          <input {...passwordField.inputProps()} />
           <button type='submit'>login</button>
         </form>
       </>

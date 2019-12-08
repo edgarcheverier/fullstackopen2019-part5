@@ -39,11 +39,11 @@ const CreateBlog = ({ token, blogs, setBlogs, setshowNotifications, setError, se
   const displayForm = () => (
     <form onSubmit={handleSubmit}>
       title
-      <input type={titleField.type} value={titleField.value} onChange={titleField.onChange} />
+      <input {...titleField.inputProps()} />
       author
-      <input type={authorField.type} value={authorField.value} onChange={authorField.onChange} />
+      <input {...authorField.inputProps()} />
       url
-      <input type={urlField.type} value={urlField.value} onChange={urlField.onChange  } />
+      <input {...urlField.inputProps()} />
       <button type='submit'>create</button>
     </form>
   );
